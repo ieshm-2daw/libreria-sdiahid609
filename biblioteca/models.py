@@ -23,3 +23,10 @@ class Editorial(models.Model):
 class Libro(models.Model):
     titulo = models.CharField(max_length=30)
     autor = Autor
+    editorial = Editorial
+    fechaPublicacion = models.DateField()
+    genero = models.CharField(max_length=10)
+    isbn = models.CharField(max_length=20)
+    resumen = models.TextField()
+    disponibilidad = models.CharField(max_length=20)
+    portada = models.ImageField()
