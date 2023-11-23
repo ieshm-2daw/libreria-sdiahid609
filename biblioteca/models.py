@@ -30,3 +30,10 @@ class Libro(models.Model):
     resumen = models.TextField()
     disponibilidad = models.CharField(max_length=20)
     portada = models.ImageField()
+
+class Prestamo(models.Model):
+    libroPrestado = Libro
+    fechaPrestamo = models.DateField()
+    fechaDevolucion = models.DateField()
+    usuarioPrestado = Usuario
+    estadoPrestamo = models.CharField(max_length=20)
