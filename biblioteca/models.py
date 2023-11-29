@@ -24,7 +24,7 @@ class Editorial(models.Model):
 
 
 class Libro(models.Model):
-    titulo = models.CharField(max_length=30)
+    titulo = models.CharField(max_length=100)
     autor = models.ManyToManyField(Autor)
     editorial = models.ForeignKey(Editorial, on_delete=models.CASCADE)
     fechaPublicacion = models.DateField()
@@ -36,7 +36,7 @@ class Libro(models.Model):
         ('prestado', 'Prestado'),
         ('proceso', 'En proceso de prestamo'),
         ))
-    portada = models.ImageField()
+    portada = models.ImageField(upload_to='portadas/')
     def __str__(self):
         return self.titulo
 

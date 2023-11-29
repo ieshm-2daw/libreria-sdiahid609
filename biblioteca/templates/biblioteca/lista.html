@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +8,11 @@
 </head>
 <body>
     <a href="{% url 'book_create' %}">Añadir libro</a>
-    {% for libro in libros %}
+    {% for libro in object_list %}
     <p>{{ libro.titulo }}</p>
+    {% if libro.portada %}
+        <img src="{{ libro.portada.url }}" style="width: 200px;">
+    {% endif %}
     <p>{{ libro.genero }}</p>
     <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
     <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
