@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from .models import Libro, Prestamo
 from django.views import View
@@ -38,9 +38,19 @@ class Book_delete(DeleteView):
     template_name = "biblioteca/delete.html"
     success_url = reverse_lazy("lista")
 
-class Prestamo_create(CreateView):
-    model = Prestamo
-    template_name = "biblioteca/prestamoCreate.html"
-    fields = ["libroPrestado", "fechaPrestamo", "fechaDevolucion", "usuarioPrestado", "estadoPrestamo"]
+'''
+class Prestamo_edit(UpdateView):
+    model = Libro
+    template_name = "biblioteca/prestamoEdit.html"
+    fields = ["disponibilidad"]
     success_url = reverse_lazy("lista")
+'''
 
+class Prestamo_edit(View):
+    def get(self, request, pk):
+        return render(request, 'biblioteca/prestamoEdit.html')
+
+    def post(self, request, pk):
+        libro = get_object_or_404(Libro, pk=pk)
+        return render(request, 'biblioteca/prestamoEdit.html')
+    
