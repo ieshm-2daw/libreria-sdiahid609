@@ -1,7 +1,7 @@
 from typing import Any
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .models import Libro
+from .models import Libro, Prestamo
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 
@@ -36,5 +36,11 @@ class Book_edit(UpdateView):
 class Book_delete(DeleteView):
     model = Libro
     template_name = "biblioteca/delete.html"
+    success_url = reverse_lazy("lista")
+
+class Prestamo_create(CreateView):
+    model = Prestamo
+    template_name = "biblioteca/prestamoCreate.html"
+    fields = ["libroPrestado", "fechaPrestamo", "fechaDevolucion", "usuarioPrestado", "estadoPrestamo"]
     success_url = reverse_lazy("lista")
 

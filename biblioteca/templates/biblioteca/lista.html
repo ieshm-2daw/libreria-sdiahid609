@@ -8,7 +8,18 @@
 </head>
 <body>
     <a href="{% url 'book_create' %}">Añadir libro</a>
-    {% for libro in object_list %}
+    <h2>Libros disponibles</h2>
+    {% for libro in libros_disponibles %}
+    <p>{{ libro.titulo }}</p>
+    {% if libro.portada %}
+        <img src="{{ libro.portada.url }}" style="width: 200px;">
+    {% endif %}
+    <p>{{ libro.genero }}</p>
+    <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
+    <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
+    {% endfor %}
+    <h2>Libros prestados</h2>
+    {% for libro in libros_prestados %}
     <p>{{ libro.titulo }}</p>
     {% if libro.portada %}
         <img src="{{ libro.portada.url }}" style="width: 200px;">
