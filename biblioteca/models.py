@@ -34,7 +34,6 @@ class Libro(models.Model):
     disponibilidad = models.CharField(max_length=20, choices=(
         ('disponible', 'Disponible'),
         ('prestado', 'Prestado'),
-        ('proceso', 'En proceso de prestamo'),
         ))
     portada = models.ImageField(upload_to='portadas/')
     def __str__(self):
@@ -42,7 +41,10 @@ class Libro(models.Model):
 
 class Prestamo(models.Model):
     libroPrestado = models.ForeignKey(Libro, on_delete=models.CASCADE)
-    fechaPrestamo = models.DateField()
-    fechaDevolucion = models.DateField()
-    usuarioPrestado = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    estadoPrestamo = models.CharField(max_length=20)
+    fechaPrestamo = models.DateField(null=True)
+    fechaDevolucion = models.DateField(null=True)
+    usuarioPrestado = models.ForeignKey(Usuario, on_delete=models.CASCADE, null=True)
+    estadoPrestamo = models.CharField(max_length=20, null=True, choices=(
+        ('disponible', 'Disponible'),
+        ('prestado', 'Prestado'),
+        ))

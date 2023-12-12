@@ -12,12 +12,12 @@
   <body>
     <main class="container">
       <article>
-        {{ libro.resumen }}
-        <br />
-        <a href="{% url 'book_edit' object.pk %}">Editar</a>
-        <br />
-        <a href="{% url 'prestamo_edit' pk=object.pk %}">Realizar prestamo</a>
-        <a href="{% url 'disponible_edit' pk=object.pk %}">Devolver libro</a>
+        <form method="POST">
+          {% csrf_token %} {{ object.titulo }}
+          <br />
+          {{ object.resumen }} {{ form.as_p }}
+          <input type="submit" />
+        </form>
       </article>
     </main>
   </body>
