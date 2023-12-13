@@ -25,14 +25,16 @@
         </div>
         <a href="{% url 'book_create' %}">Añadir libro</a>
         <h2>Libros prestados</h2>
-        {% for libro in libros_prestados %}
-        <p>{{ libro.titulo }}</p>
-        {% if libro.portada %}
-        <img src="{{ libro.portada.url }}" style="width: 200px" />
+        {% for prestamo in prestamos %} 
+        {% if prestamo.usuarioPrestado == usuario %}
+        <p>{{ prestamo.libroPrestado.titulo }}</p>
+        {% if prestamo.libroPrestado.portada %}
+        <img src="{{ prestamo.libroPrestado.portada.url }}" style="width: 200px" />
         {% endif %}
-        <p>{{ libro.genero }}</p>
-        <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
-        <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
+        <p>{{ prestamo.libroPrestado.genero }}</p>
+        <a href="{% url 'book_delete' prestamo.libroPrestado.pk %}">Borrar libro</a>
+        <a href="{% url 'book_details' prestamo.libroPrestado.pk %}">Ver detalles</a>
+        {% endif %}
         {% endfor %}
       </article>
     </main>

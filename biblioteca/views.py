@@ -18,12 +18,13 @@ class Libro_list(ListView):
         return context
 
 class Book_list_prestados(ListView):
-    model = Libro
+    model = Prestamo
     template_name="biblioteca/lista_prestado.html"
     #queryset=Libro.objects.filter(disponibilidad="disponible")
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
+        context['usuario'] = self.request.user
+        context['prestamos'] = Prestamo.objects.filter(estadoPrestamo="prestado")
         return context
 
 class Book_list_disponibles(ListView):
@@ -91,5 +92,6 @@ class Disponible_edit(View):
         libro_p.disponibilidad="disponible"
         prestamo.estadoPrestamo= "disponible"
         libro_p.save()
+        prestamo.fechaDevolucion = datetime.now()
         prestamo.save()
         return redirect('lista')
