@@ -15,7 +15,7 @@ class Libro_list(ListView):
         context = super().get_context_data(**kwargs)
         context['autores'] = Autor.objects.all()
         a = self.request.GET.get('autor')
-        if  a == "all":
+        if  a == "all" or a == None:
             context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
             context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
         else:
