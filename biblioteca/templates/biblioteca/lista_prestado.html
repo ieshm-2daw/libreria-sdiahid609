@@ -36,6 +36,20 @@
         <a href="{% url 'book_details' prestamo.libroPrestado.pk %}">Ver detalles</a>
         {% endif %}
         {% endfor %}
+        <h2>Prestamos anteriores</h2>
+        {% for p in historialPrestamos %}
+        {% if p.usuarioPrestado == usuario %}
+        {% if p.fechaDevolucion != None %}
+        <p>{{ p.libroPrestado.titulo }}</p>
+        {% if p.libroPrestado.portada %}
+        <img src="{{ p.libroPrestado.portada.url }}" style="width: 200px" />
+        {% endif %}
+        <p>{{ p.libroPrestado.genero }}</p>
+        <p>{{ p.fechaPrestamo }}</p>
+        <p>{{ p.fechaDevolucion }}</p>
+        {% endif %}
+        {% endif %}
+        {% endfor %}
       </article>
     </main>
   </body>

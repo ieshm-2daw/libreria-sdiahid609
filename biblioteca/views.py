@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from .models import Libro, Prestamo
+from .models import Libro, Prestamo, Autor
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 
@@ -13,8 +13,15 @@ class Libro_list(ListView):
     #queryset=Libro.objects.filter(disponibilidad="disponible")
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
-        context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
+        context['autores'] = Autor.objects.all()
+        a = self.request.GET.get('autor')
+        if  a == "all":
+            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
+            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
+        else:
+            autor = Autor.objects.get(nombre=a)
+            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", autor = autor)
+            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", autor=autor)
         return context
 
 class Book_list_prestados(ListView):
@@ -25,6 +32,7 @@ class Book_list_prestados(ListView):
         context = super().get_context_data(**kwargs)
         context['usuario'] = self.request.user
         context['prestamos'] = Prestamo.objects.filter(estadoPrestamo="prestado")
+        context['historialPrestamos'] = Prestamo.objects.filter(estadoPrestamo="disponible")
         return context
 
 class Book_list_disponibles(ListView):

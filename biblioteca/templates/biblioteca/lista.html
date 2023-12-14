@@ -16,7 +16,18 @@
           <div></div>
           <div></div>
           <div></div>
-          <div></div>
+          <div>
+            <form method="GET" name="frm">
+              {% csrf_token %}
+            <select name="autor" id="autor">
+              <option value="all">Todos</option>
+              {% for autor in autores %}
+              <option value="{{ autor }}">{{ autor.nombre }}</option>
+              {% endfor %}
+            </select>
+            <input type="submit" value="Filtrar">
+          </form>
+          </div>
 
           <div>
             <a href="{% url 'lista_disponible' %}" role="button">Disponibles</a>
