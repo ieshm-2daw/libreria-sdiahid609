@@ -14,14 +14,28 @@ class Libro_list(ListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['autores'] = Autor.objects.all()
+        generosLibro = []
+        for libro in Libro.objects.all() :
+            if libro.genero not in generosLibro:
+                generosLibro.append(libro.genero)
+        context['generosLibro'] = generosLibro
         a = self.request.GET.get('autor')
-        if  a == "all" or a == None:
+        g = self.request.GET.get('genero')
+        if  (a == "all" or a == None) and (g == "all" or g == None):
             context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
             context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
-        else:
+        elif g == "all" or g == None:
             autor = Autor.objects.get(nombre=a)
             context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", autor = autor)
             context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", autor=autor)
+        elif a == "all" or a == None:
+            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", genero = g)
+            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", genero=g)
+        else:
+            autor = Autor.objects.get(nombre=a)
+            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", autor = autor, genero=g)
+            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", autor=autor, genero=g)
+            
         return context
 
 class Book_list_prestados(ListView):

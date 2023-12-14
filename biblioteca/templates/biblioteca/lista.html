@@ -13,50 +13,53 @@
     <main class="container">
       <article>
         <div class="grid">
-          <div></div>
-          <div></div>
-          <div></div>
+          <div>
+            <a href="{% url 'book_create' %}">Añadir libro</a>
+            <h2>Libros disponibles</h2>
+            {% for libro in libros_disponibles %}
+            <p>{{ libro.titulo }}</p>
+            {% if libro.portada %}
+            <img src="{{ libro.portada.url }}" style="width: 200px" />
+            {% endif %}
+            <p>{{ libro.genero }}</p>
+            <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
+            <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
+            {% endfor %}
+            <h2>Libros prestados</h2>
+            {% for libro in libros_prestados %}
+            <p>{{ libro.titulo }}</p>
+            {% if libro.portada %}
+            <img src="{{ libro.portada.url }}" style="width: 200px" />
+            {% endif %}
+            <p>{{ libro.genero }}</p>
+            <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
+            <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
+            {% endfor %}
+          </div>
           <div>
             <form method="GET" name="frm">
               {% csrf_token %}
+            <label>Autor</label>
             <select name="autor" id="autor">
               <option value="all">Todos</option>
               {% for autor in autores %}
               <option value="{{ autor }}">{{ autor.nombre }}</option>
               {% endfor %}
             </select>
+            <label>Genero</label>
+            <select name="genero" id="genero">
+              <option value="all">Todos</option>
+              {% for g in generosLibro %}
+                <option value="{{ g }}">{{ g }}</option>
+              {% endfor %}
+            </select>
             <input type="submit" value="Filtrar">
           </form>
-          </div>
-
-          <div>
             <a href="{% url 'lista_disponible' %}" role="button">Disponibles</a>
-          </div>
-          <div>
             <a href="{% url 'lista_prestado' %}" role="button">Prestados</a>
           </div>
         </div>
-        <a href="{% url 'book_create' %}">Añadir libro</a>
-        <h2>Libros disponibles</h2>
-        {% for libro in libros_disponibles %}
-        <p>{{ libro.titulo }}</p>
-        {% if libro.portada %}
-        <img src="{{ libro.portada.url }}" style="width: 200px" />
-        {% endif %}
-        <p>{{ libro.genero }}</p>
-        <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
-        <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
-        {% endfor %}
-        <h2>Libros prestados</h2>
-        {% for libro in libros_prestados %}
-        <p>{{ libro.titulo }}</p>
-        {% if libro.portada %}
-        <img src="{{ libro.portada.url }}" style="width: 200px" />
-        {% endif %}
-        <p>{{ libro.genero }}</p>
-        <a href="{% url 'book_delete' libro.pk %}">Borrar libro</a>
-        <a href="{% url 'book_details' libro.pk %}">Ver detalles</a>
-        {% endfor %}
+        
       </article>
     </main>
   </body>
