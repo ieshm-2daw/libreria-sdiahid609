@@ -14,27 +14,28 @@ class Libro_list(ListView):
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['autores'] = Autor.objects.all()
+        #Recojo todos los generos
         generosLibro = []
         for libro in Libro.objects.all() :
             if libro.genero not in generosLibro:
                 generosLibro.append(libro.genero)
         context['generosLibro'] = generosLibro
+        #Recojo los filtros seleccionados por el usuario
         a = self.request.GET.get('autor')
         g = self.request.GET.get('genero')
-        if  (a == "all" or a == None) and (g == "all" or g == None):
-            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
-            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
-        elif g == "all" or g == None:
+
+        #Filtramos por disponibles y prestados
+        context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
+        context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
+
+        if a != "all" and a != None:
             autor = Autor.objects.get(nombre=a)
-            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", autor = autor)
-            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", autor=autor)
-        elif a == "all" or a == None:
-            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", genero = g)
-            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", genero=g)
-        else:
-            autor = Autor.objects.get(nombre=a)
-            context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible", autor = autor, genero=g)
-            context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado", autor=autor, genero=g)
+            context['libros_disponibles']= context['libros_disponibles'].filter(autor=autor)
+            context['libros_prestados'] = context['libros_prestados'].filter(autor=autor)
+        
+        if g != "all" and g != None:
+            context['libros_disponibles']= context['libros_disponibles'].filter(genero=g)
+            context['libros_prestados']=context['libros_prestados'].filter(genero=g)
             
         return context
 
