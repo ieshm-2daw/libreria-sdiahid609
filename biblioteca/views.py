@@ -28,6 +28,7 @@ class Libro_list(ListView):
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
         context['libros_prestados'] = Libro.objects.filter(disponibilidad="prestado")
 
+        #Cambios de context
         if a != "all" and a != None:
             autor = Autor.objects.get(nombre=a)
             context['libros_disponibles']= context['libros_disponibles'].filter(autor=autor)
