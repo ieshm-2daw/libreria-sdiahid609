@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css"
-    />
-    <title>Document</title>
-  </head>
-  <body>
+{% extends 'biblioteca/base.html' %}
+
+{% block title %} 
+Editar disponible
+{% endblock %}
+
+{% block content %}
     <main class="container">
       <article>
         <form method="POST">
@@ -20,5 +15,4 @@
         </form>
       </article>
     </main>
-  </body>
-</html>
+{% endblock %}

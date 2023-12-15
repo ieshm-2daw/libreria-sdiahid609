@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/@picocss/pico@latest/css/pico.classless.min.css"
-      &gt;
-    />
-    <title>Document</title>
-  </head>
-  <body>
+{% extends 'biblioteca/base.html' %}
+
+{% block title %} 
+Borrar
+{% endblock %}
+
+{% block content %}
     <main class="container">
       <article>
         <p>¿Seguro que quieres borrar el libro?</p>
@@ -21,5 +15,5 @@
         <a href="{% url 'lista' %}">Volver</a>
       </article>
     </main>
-  </body>
-</html>
+{% endblock %}
+
