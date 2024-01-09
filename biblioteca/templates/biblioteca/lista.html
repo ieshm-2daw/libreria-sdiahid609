@@ -34,22 +34,33 @@ Lista
           <div>
             <form method="GET" name="frm">
               {% csrf_token %}
-            <label>Autor</label>
-            <select name="autor" id="autor">
-              <option value="all">Todos</option>
-              {% for autor in autores %}
-              <option value="{{ autor }}">{{ autor.nombre }}</option>
-              {% endfor %}
-            </select>
-            <label>Genero</label>
-            <select name="genero" id="genero">
-              <option value="all">Todos</option>
-              {% for g in generosLibro %}
-                <option value="{{ g }}">{{ g }}</option>
-              {% endfor %}
-            </select>
-            <input type="submit" value="Filtrar">
+              <label>Autor</label>
+              <select name="autor" id="autor">
+                  <option value="all"{% if not request.GET.autor %} selected{% endif %}>Todos</option>
+                  {% for autor in autores %}
+                      <option value="{{ autor.nombre }}" {% if request.GET.autor == autor.nombre %}selected{% endif %}>{{ autor.nombre }}</option>
+                  {% endfor %}
+              </select>
+          
+              <label>Género</label>
+              <select name="genero" id="genero">
+                  <option value="all"{% if not request.GET.genero %} selected{% endif %}>Todos</option>
+                  {% for g in generosLibro %}
+                      <option value="{{ g }}" {% if request.GET.genero == g %}selected{% endif %}>{{ g }}</option>
+                  {% endfor %}
+              </select>
+          
+              <label>Editorial</label>
+              <select name="editorial" id="editorial">
+                  <option value="all"{% if not request.GET.editorial %} selected{% endif %}>Todos</option>
+                  {% for editorial in editoriales %}
+                      <option value="{{ editorial.id }}" {% if request.GET.editorial == editorial.id %}selected{% endif %}>{{ editorial.nombre }}</option>
+                  {% endfor %}
+              </select>
+          
+              <input type="submit" value="Filtrar">
           </form>
+          
             <a href="{% url 'lista_disponible' %}" role="button">Disponibles</a>
             <a href="{% url 'lista_prestado' %}" role="button">Prestados</a>
           </div>

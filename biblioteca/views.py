@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from .models import Libro, Prestamo, Autor
+from .models import Libro, Prestamo, Autor, Editorial
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 
@@ -20,9 +20,11 @@ class Libro_list(ListView):
             if libro.genero not in generosLibro:
                 generosLibro.append(libro.genero)
         context['generosLibro'] = generosLibro
+        context['editoriales'] = Editorial.objects.all()
         #Recojo los filtros seleccionados por el usuario
         a = self.request.GET.get('autor')
         g = self.request.GET.get('genero')
+        e = self.request.GET.get('editorial')
 
         #Filtramos por disponibles y prestados
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
@@ -37,6 +39,10 @@ class Libro_list(ListView):
         if g != "all" and g != None:
             context['libros_disponibles']= context['libros_disponibles'].filter(genero=g)
             context['libros_prestados']=context['libros_prestados'].filter(genero=g)
+
+        if e != "all" and e != None:
+            context['libros_disponibles']= context['libros_disponibles'].filter(editorial=e)
+            context['libros_prestados']=context['libros_prestados'].filter(editorial=e)
             
         return context
 
