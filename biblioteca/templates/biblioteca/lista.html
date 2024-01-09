@@ -53,8 +53,8 @@ Lista
               <label>Editorial</label>
               <select name="editorial" id="editorial">
                   <option value="all"{% if not request.GET.editorial %} selected{% endif %}>Todos</option>
-                  {% for editorial in editoriales %}
-                      <option value="{{ editorial.id }}" {% if request.GET.editorial == editorial.id %}selected{% endif %}>{{ editorial.nombre }}</option>
+                  {% for e in editoriales %}
+                      <option value="{{ e.id }}" {% if request.GET.editorial == e %}selected{% endif %}>{{ e.nombre }}</option>
                   {% endfor %}
               </select>
           
