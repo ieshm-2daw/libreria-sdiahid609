@@ -1,0 +1,18 @@
+{% extends 'biblioteca/base.html' %} 
+{% block title %} 
+Login 
+{% endblock %} 
+
+{%block content %}
+
+<main class="container">
+  <article>
+    <form action="" method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <input type="hidden" name="next" value="{{ next }}" />
+      <input type="submit" value="Iniciar sesion" />
+    </form>
+  </article>
+</main>
+
+{% endblock %}

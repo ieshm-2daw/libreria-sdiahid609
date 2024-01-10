@@ -5,9 +5,11 @@ from django.urls import reverse_lazy
 from .models import Libro, Prestamo, Autor, Editorial
 from django.views import View
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-class Libro_list(ListView):
+
+class Libro_list(LoginRequiredMixin, ListView):
     model = Libro
     template_name="biblioteca/lista.html"
     #queryset=Libro.objects.filter(disponibilidad="disponible")
@@ -46,7 +48,7 @@ class Libro_list(ListView):
             
         return context
 
-class Book_list_prestados(ListView):
+class Book_list_prestados(LoginRequiredMixin, ListView):
     model = Prestamo
     template_name="biblioteca/lista_prestado.html"
     #queryset=Libro.objects.filter(disponibilidad="disponible")
@@ -57,7 +59,7 @@ class Book_list_prestados(ListView):
         context['historialPrestamos'] = Prestamo.objects.filter(estadoPrestamo="disponible")
         return context
 
-class Book_list_disponibles(ListView):
+class Book_list_disponibles(LoginRequiredMixin, ListView):
     model = Libro
     template_name="biblioteca/lista_disponible.html"
     #queryset=Libro.objects.filter(disponibilidad="disponible")
@@ -66,24 +68,24 @@ class Book_list_disponibles(ListView):
         context['libros_disponibles'] = Libro.objects.filter(disponibilidad="disponible")
         return context
     
-class Book_create(CreateView):
+class Book_create(LoginRequiredMixin, CreateView):
     model = Libro
     template_name = "biblioteca/create.html"
     fields = ["titulo", "autor", "editorial", "fechaPublicacion", "genero", "isbn", "resumen", "disponibilidad" , "portada"]
     success_url = reverse_lazy("lista")
 
-class Book_details(DetailView):
+class Book_details(LoginRequiredMixin, DetailView):
     model = Libro
     template_name = "biblioteca/details.html"
     fields = ["resumen"]
 
-class Book_edit(UpdateView):
+class Book_edit(LoginRequiredMixin, UpdateView):
     model = Libro
     template_name = "biblioteca/edit.html"
     fields = ["titulo", "autor", "editorial", "fechaPublicacion", "genero", "isbn", "resumen", "disponibilidad", "portada"]
     success_url = reverse_lazy("lista")
 
-class Book_delete(DeleteView):
+class Book_delete(LoginRequiredMixin, DeleteView):
     model = Libro
     template_name = "biblioteca/delete.html"
     success_url = reverse_lazy("lista")
@@ -96,7 +98,7 @@ class Prestamo_edit(UpdateView):
     success_url = reverse_lazy("lista")
 '''
 
-class Prestamo_edit(View):
+class Prestamo_edit(LoginRequiredMixin, View):
     def get(self, request, pk):
         return render(request, 'biblioteca/prestamoEdit.html')
 
@@ -113,7 +115,7 @@ class Prestamo_edit(View):
         libro.save()
         return redirect('lista')
 
-class Disponible_edit(View):
+class Disponible_edit(LoginRequiredMixin, View):
     def get(self, request, pk):
         return render(request, 'biblioteca/disponibleEdit.html')
     def post(self, request, pk):
