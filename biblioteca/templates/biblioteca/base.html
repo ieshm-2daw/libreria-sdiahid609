@@ -10,7 +10,8 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    {% block content %}
-    {% endblock %}
+  <a href="{% url 'logout' %}">Cerrar sesión</a>
+  {% block content %}
+  {% endblock %}
 </body>
 </html>

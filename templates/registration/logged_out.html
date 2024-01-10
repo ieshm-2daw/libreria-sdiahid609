@@ -1,0 +1,15 @@
+{% extends 'biblioteca/base.html' %} 
+{% block title %} 
+Logout 
+{% endblock %} 
+
+{%block content %}
+
+<main class="container">
+    <article>
+      <h2>Sesion cerrada</h2>
+      <p>Tu puedes <a href="{% url 'login' %}">iniciar sesion</a> nuevamente</p>
+    </article>
+  </main>
+
+{% endblock %}

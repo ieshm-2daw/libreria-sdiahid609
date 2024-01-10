@@ -134,6 +134,5 @@ AUTH_USER_MODEL = "biblioteca.Usuario"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = reverse_lazy('Libro_list')
-LOGIN_URL = 'login'
-LOGOUT_REDIRECT_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('lista')
+#LOGOUT_REDIRECT_URL = reverse_lazy('login')
